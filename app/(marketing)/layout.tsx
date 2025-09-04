@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import "../globals.css";
+import { Header } from "@/components/header";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
@@ -34,7 +35,8 @@ export default function RootLayout({
       <body
         className={`${playfairDisplay.variable} ${montserrat.variable} antialiased`}
       >
-        {children}
+        <Header />
+        <main className="min-h-screen">{children}</main>
       </body>
     </html>
   );

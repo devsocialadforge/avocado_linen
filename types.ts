@@ -76,7 +76,7 @@ export interface Collection {
 export interface MenuItem {
   label: string;
   link?: string;
-  collection?: Collection;
+  collections?: Collection[];
   order: number;
   active: boolean;
 }
@@ -88,20 +88,19 @@ export interface Menu {
   menuItems: MenuItem[];
 }
 
-// Extended types with Sanity base
-export type ProductDocument = Product & SanityDocument;
-export type CollectionDocument = Collection & SanityDocument;
-export type MenuDocument = Menu & SanityDocument;
-
 // Category Icons Types
-export interface CategoryIcon {
-  _id: string;
-  _type: "categoryIcons";
+export interface CategoryIconItem {
   title: string;
   collection: Collection;
   image: SanityImage;
-  order: number;
+  priority: number;
   active: boolean;
+}
+
+export interface CategoryIcons {
+  _id: string;
+  _type: "categoryIcons";
+  icons: CategoryIconItem[];
 }
 
 // Category Highlights Types
@@ -116,13 +115,6 @@ export interface CategoryHighlight {
   active: boolean;
 }
 
-// Extended types with Sanity base
-export type ProductDocument = Product & SanityDocument;
-export type CollectionDocument = Collection & SanityDocument;
-export type MenuDocument = Menu & SanityDocument;
-export type CategoryIconDocument = CategoryIcon & SanityDocument;
-export type CategoryHighlightDocument = CategoryHighlight & SanityDocument;
-
 // Occasion Shopping Types
 export interface OccasionShopping {
   _id: string;
@@ -132,19 +124,11 @@ export interface OccasionShopping {
   description?: string;
   image: SanityImage;
   collections: Collection[];
-  season?: 'spring' | 'summer' | 'fall' | 'winter' | 'all';
-  formality?: 'casual' | 'semi-formal' | 'formal' | 'black-tie' | 'any';
+  season?: "spring" | "summer" | "fall" | "winter" | "all";
+  formality?: "casual" | "semi-formal" | "formal" | "black-tie" | "any";
   order: number;
   active: boolean;
 }
-
-// Extended types with Sanity base
-export type ProductDocument = Product & SanityDocument;
-export type CollectionDocument = Collection & SanityDocument;
-export type MenuDocument = Menu & SanityDocument;
-export type CategoryIconDocument = CategoryIcon & SanityDocument;
-export type CategoryHighlightDocument = CategoryHighlight & SanityDocument;
-export type OccasionShoppingDocument = OccasionShopping & SanityDocument;
 
 // Collection Highlights Types
 export interface CollectionHighlight {
@@ -156,15 +140,6 @@ export interface CollectionHighlight {
   order: number;
   active: boolean;
 }
-
-// Extended types with Sanity base
-export type ProductDocument = Product & SanityDocument;
-export type CollectionDocument = Collection & SanityDocument;
-export type MenuDocument = Menu & SanityDocument;
-export type CategoryIconDocument = CategoryIcon & SanityDocument;
-export type CategoryHighlightDocument = CategoryHighlight & SanityDocument;
-export type OccasionShoppingDocument = OccasionShopping & SanityDocument;
-export type CollectionHighlightDocument = CollectionHighlight & SanityDocument;
 
 // Avocado Women Types
 export interface AvocadoWomen {
@@ -179,12 +154,63 @@ export interface AvocadoWomen {
   active: boolean;
 }
 
+// Banner Image Type (for individual images in the array)
+export interface BannerImage {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+  altText?: string;
+  link?: string;
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+}
+
+// Main Banner Types
+export interface MainBanner {
+  _id: string;
+  _type: "mainBanner";
+  title: string;
+  mobileImages: BannerImage[];
+  desktopImages: BannerImage[];
+  link?: string;
+  altText?: string;
+  order: number;
+  active: boolean;
+}
+
+// Second Banner Types
+export interface SecondBanner {
+  _id: string;
+  _type: "secondBanner";
+  title: string;
+  mobileImages: BannerImage[];
+  desktopImages: BannerImage[];
+  link?: string;
+  altText?: string;
+  order: number;
+  active: boolean;
+}
+
 // Extended types with Sanity base
 export type ProductDocument = Product & SanityDocument;
 export type CollectionDocument = Collection & SanityDocument;
 export type MenuDocument = Menu & SanityDocument;
-export type CategoryIconDocument = CategoryIcon & SanityDocument;
+export type CategoryIconsDocument = CategoryIcons & SanityDocument;
 export type CategoryHighlightDocument = CategoryHighlight & SanityDocument;
 export type OccasionShoppingDocument = OccasionShopping & SanityDocument;
 export type CollectionHighlightDocument = CollectionHighlight & SanityDocument;
 export type AvocadoWomenDocument = AvocadoWomen & SanityDocument;
+export type MainBannerDocument = MainBanner & SanityDocument;
+export type SecondBannerDocument = SecondBanner & SanityDocument;

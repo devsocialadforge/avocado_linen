@@ -169,7 +169,7 @@ export const ACTIVE_MENU_ITEMS_QUERY = `*[_type == "menu"][0]{
   menuItems[active == true]|order(order asc){
     label,
     link,
-    "collection": collection->{
+    "collections": collections[]->{
       _id,
       name,
       slug
@@ -191,26 +191,25 @@ export const ALL_COLLECTIONS_QUERY = `*[
 }`;
 
 // Category Icons Queries
-export const ALL_CATEGORY_ICONS_QUERY = `*[
-  _type == "categoryIcons"
-  && active == true
-]|order(order desc, _createdAt desc){
+export const ALL_CATEGORY_ICONS_QUERY = `*[_type == "categoryIcons"][0]{
   _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
+  icons[active == true]|order(priority desc, _createdAt desc){
+    title,
+    "collection": collection->{
       _id,
-      url
+      name,
+      slug
     },
-    alt
-  },
-  order,
-  active
+    "image": image{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    priority,
+    active
+  }
 }`;
 
 // Category Highlights Queries
@@ -457,85 +456,116 @@ export const ALL_AVOCADO_WOMEN_QUERY = `*[
   active
 }`;
 
-export const AVOCADO_WOMEN_BY_ID_QUERY = `*[
-  _type == "avocadoWomen"
+// Main Banner Queries
+export const ALL_MAIN_BANNERS_QUERY = `*[
+  _type == "mainBanner"
+  && active == true
+]|order(order asc, _createdAt desc){
+  _id,
+  title,
+  "mobileImages": mobileImages[]{
+    asset->{
+      _id,
+      url
+    },
+    altText,
+    link
+  },
+  "desktopImages": desktopImages[]{
+    asset->{
+      _id,
+      url
+    },
+    altText,
+    link
+  },
+  link,
+  altText,
+  order,
+  active
+}`;
+
+export const MAIN_BANNER_BY_ID_QUERY = `*[
+  _type == "mainBanner"
   && _id == $id
 ][0]{
   _id,
-  name,
-  "image": image{
+  title,
+  "mobileImages": mobileImages[]{
     asset->{
       _id,
       url
     },
-    alt
+    altText,
+    link
   },
-  review,
-  rating,
-  location,
+  "desktopImages": desktopImages[]{
+    asset->{
+      _id,
+      url
+    },
+    altText,
+    link
+  },
+  link,
+  altText,
   order,
   active
 }`;
 
-export const AVOCADO_WOMEN_BY_RATING_QUERY = `*[
-  _type == "avocadoWomen"
+// Second Banner Queries
+export const ALL_SECOND_BANNERS_QUERY = `*[
+  _type == "secondBanner"
   && active == true
-  && rating >= $minRating
-]|order(rating desc, order desc, _createdAt desc){
+]|order(order asc, _createdAt desc){
   _id,
-  name,
-  "image": image{
+  title,
+  "mobileImages": mobileImages[]{
     asset->{
       _id,
       url
     },
-    alt
+    altText,
+    link
   },
-  review,
-  rating,
-  location,
+  "desktopImages": desktopImages[]{
+    asset->{
+      _id,
+      url
+    },
+    altText,
+    link
+  },
+  link,
+  altText,
   order,
   active
 }`;
 
-export const AVOCADO_WOMEN_BY_LOCATION_QUERY = `*[
-  _type == "avocadoWomen"
-  && active == true
-  && location match $location
-]|order(order desc, _createdAt desc){
+export const SECOND_BANNER_BY_ID_QUERY = `*[
+  _type == "secondBanner"
+  && _id == $id
+][0]{
   _id,
-  name,
-  "image": image{
+  title,
+  "mobileImages": mobileImages[]{
     asset->{
       _id,
       url
     },
-    alt
+    altText,
+    link
   },
-  review,
-  rating,
-  location,
-  order,
-  active
-}`;
-
-export const TOP_RATED_AVOCADO_WOMEN_QUERY = `*[
-  _type == "avocadoWomen"
-  && active == true
-  && rating == 5
-]|order(order desc, _createdAt desc){
-  _id,
-  name,
-  "image": image{
+  "desktopImages": desktopImages[]{
     asset->{
       _id,
       url
     },
-    alt
+    altText,
+    link
   },
-  review,
-  rating,
-  location,
+  link,
+  altText,
   order,
   active
 }`;

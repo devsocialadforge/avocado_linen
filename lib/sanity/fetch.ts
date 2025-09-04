@@ -18,20 +18,20 @@ import {
   COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY,
   COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY,
   ALL_AVOCADO_WOMEN_QUERY,
-  AVOCADO_WOMEN_BY_ID_QUERY,
-  AVOCADO_WOMEN_BY_RATING_QUERY,
-  AVOCADO_WOMEN_BY_LOCATION_QUERY,
-  TOP_RATED_AVOCADO_WOMEN_QUERY,
+  ALL_MAIN_BANNERS_QUERY,
+  ALL_SECOND_BANNERS_QUERY,
 } from "./querys";
 import {
   ProductDocument,
   MenuDocument,
   CollectionDocument,
-  CategoryIconDocument,
+  CategoryIconsDocument,
   CategoryHighlightDocument,
   OccasionShoppingDocument,
   CollectionHighlightDocument,
   AvocadoWomenDocument,
+  MainBannerDocument,
+  SecondBannerDocument,
 } from "@/types";
 
 // Fetch all products with full details
@@ -99,8 +99,8 @@ export async function fetchAllCollections(): Promise<CollectionDocument[]> {
 }
 
 // Category Icons Fetch Functions
-export async function fetchAllCategoryIcons(): Promise<CategoryIconDocument[]> {
-  const categoryIcons = await client.fetch<CategoryIconDocument[]>(
+export async function fetchAllCategoryIcons(): Promise<CategoryIconsDocument | null> {
+  const categoryIcons = await client.fetch<CategoryIconsDocument | null>(
     ALL_CATEGORY_ICONS_QUERY,
     {}
   );
@@ -119,7 +119,9 @@ export async function fetchAllCategoryHighlights(): Promise<
 }
 
 // Occasion Shopping Fetch Functions
-export async function fetchAllOccasionShopping(): Promise<OccasionShoppingDocument[]> {
+export async function fetchAllOccasionShopping(): Promise<
+  OccasionShoppingDocument[]
+> {
   const occasions = await client.fetch<OccasionShoppingDocument[]>(
     ALL_OCCASION_SHOPPING_QUERY,
     {}
@@ -158,41 +160,41 @@ export async function fetchOccasionShoppingByFormality(
 }
 
 // Collection Highlights Fetch Functions
-export async function fetchAllCollectionHighlights(): Promise<CollectionHighlightDocument[]> {
-  const collectionHighlights = await client.fetch<CollectionHighlightDocument[]>(
-    ALL_COLLECTION_HIGHLIGHTS_QUERY,
-    {}
-  );
+export async function fetchAllCollectionHighlights(): Promise<
+  CollectionHighlightDocument[]
+> {
+  const collectionHighlights = await client.fetch<
+    CollectionHighlightDocument[]
+  >(ALL_COLLECTION_HIGHLIGHTS_QUERY, {});
   return collectionHighlights;
 }
 
 export async function fetchCollectionHighlightById(
   id: string
 ): Promise<CollectionHighlightDocument | null> {
-  const collectionHighlight = await client.fetch<CollectionHighlightDocument | null>(
-    COLLECTION_HIGHLIGHT_BY_ID_QUERY,
-    { id }
-  );
+  const collectionHighlight =
+    await client.fetch<CollectionHighlightDocument | null>(
+      COLLECTION_HIGHLIGHT_BY_ID_QUERY,
+      { id }
+    );
   return collectionHighlight;
 }
 
 export async function fetchCollectionHighlightsByCollection(
   collectionId: string
 ): Promise<CollectionHighlightDocument[]> {
-  const collectionHighlights = await client.fetch<CollectionHighlightDocument[]>(
-    COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY,
-    { collectionId }
-  );
+  const collectionHighlights = await client.fetch<
+    CollectionHighlightDocument[]
+  >(COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY, { collectionId });
   return collectionHighlights;
 }
 
 export async function fetchCollectionHighlightsByCollectionSlug(
   collectionSlug: string
 ): Promise<CollectionHighlightDocument[]> {
-  const collectionHighlights = await client.fetch<CollectionHighlightDocument[]>(
-    COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY,
-    { collectionSlug }
-  );
+  const collectionHighlights = await client.fetch<
+    CollectionHighlightDocument[]
+  >(COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY, { collectionSlug });
   return collectionHighlights;
 }
 
@@ -205,40 +207,20 @@ export async function fetchAllAvocadoWomen(): Promise<AvocadoWomenDocument[]> {
   return avocadoWomen;
 }
 
-export async function fetchAvocadoWomenById(
-  id: string
-): Promise<AvocadoWomenDocument | null> {
-  const avocadoWomen = await client.fetch<AvocadoWomenDocument | null>(
-    AVOCADO_WOMEN_BY_ID_QUERY,
-    { id }
-  );
-  return avocadoWomen;
-}
-
-export async function fetchAvocadoWomenByRating(
-  minRating: number
-): Promise<AvocadoWomenDocument[]> {
-  const avocadoWomen = await client.fetch<AvocadoWomenDocument[]>(
-    AVOCADO_WOMEN_BY_RATING_QUERY,
-    { minRating }
-  );
-  return avocadoWomen;
-}
-
-export async function fetchAvocadoWomenByLocation(
-  location: string
-): Promise<AvocadoWomenDocument[]> {
-  const avocadoWomen = await client.fetch<AvocadoWomenDocument[]>(
-    AVOCADO_WOMEN_BY_LOCATION_QUERY,
-    { location }
-  );
-  return avocadoWomen;
-}
-
-export async function fetchTopRatedAvocadoWomen(): Promise<AvocadoWomenDocument[]> {
-  const avocadoWomen = await client.fetch<AvocadoWomenDocument[]>(
-    TOP_RATED_AVOCADO_WOMEN_QUERY,
+// Main Banner Fetch Functions
+export async function fetchAllMainBanners(): Promise<MainBannerDocument[]> {
+  const mainBanners = await client.fetch<MainBannerDocument[]>(
+    ALL_MAIN_BANNERS_QUERY,
     {}
   );
-  return avocadoWomen;
+  return mainBanners;
+}
+
+// Second Banner Fetch Functions
+export async function fetchAllSecondBanners(): Promise<SecondBannerDocument[]> {
+  const secondBanners = await client.fetch<SecondBannerDocument[]>(
+    ALL_SECOND_BANNERS_QUERY,
+    {}
+  );
+  return secondBanners;
 }
