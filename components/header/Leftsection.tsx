@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { MenuDocument } from "@/types";
+import { MenuDocument, MenuItem } from "@/types";
 
 interface LeftSectionProps {
   className?: string;
@@ -24,7 +24,7 @@ export default function LeftSection({
   const currentMenuData = menuData;
   const navigationItems = currentMenuData?.menuItems || [];
 
-  const getNavigationLink = (item: any) => {
+  const getNavigationLink = (item: MenuItem) => {
     // If it has collections, use the first collection's slug
     if (
       item.collections &&
