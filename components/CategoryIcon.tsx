@@ -13,10 +13,9 @@ import Link from "next/link";
 export default async function CategoryIcon() {
   const categoryIcons = await fetchAllCategoryIcons();
   if (!categoryIcons?.icons.length) return null;
-  console.log(categoryIcons.icons);
 
   return (
-    <div className="mx-auto max-w-[1500px] md:px-10 py-8">
+    <div className="mx-auto max-w-[1500px] md:px-10">
       <Carousel>
         <CarouselContent>
           {categoryIcons.icons.map((icon, index) => {
@@ -26,7 +25,7 @@ export default async function CategoryIcon() {
                 key={index}
                 className=" basis-1/4 md:basis-1/5 lg:basis-1/6"
               >
-                <Link href={icon.collection.slug.current}>
+                <Link href={`/collections/${icon.collection.slug.current}`}>
                   <div className="flex relative flex-col items-center">
                     <Image
                       src={urlFor(icon.image).auto("format").quality(80).url()}

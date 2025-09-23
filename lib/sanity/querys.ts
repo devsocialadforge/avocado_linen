@@ -44,7 +44,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
     defined(salePrice) && salePrice < price => round(((price - salePrice) / price) * 100),
     null
   ),
-  "mainImage": images[0]{
+  "mainImage": images[]{
     asset->{
       _id,
       url
@@ -112,7 +112,7 @@ export const PRODUCTS_BY_COLLECTION_QUERY = `*[
     defined(salePrice) && salePrice < price => round(((price - salePrice) / price) * 100),
     null
   ),
-  "mainImage": images[0]{
+  "mainImage": images[]{
     asset->{
       _id,
       url
@@ -124,9 +124,11 @@ export const PRODUCTS_BY_COLLECTION_QUERY = `*[
 export const PRODUCTS_BY_COLLECTION_SLUG_QUERY = `*[
   _type == "product"
   && defined(slug.current)
-  && collection->slug.current == $collectionSlug
+  && $collectionSlug in collections[]->slug.current
 ]|order(priority desc, _createdAt desc){
   _id,
+  _createdAt,
+  _updatedAt,
   title,
   slug,
   price,
@@ -135,12 +137,34 @@ export const PRODUCTS_BY_COLLECTION_SLUG_QUERY = `*[
     defined(salePrice) && salePrice < price => round(((price - salePrice) / price) * 100),
     null
   ),
-  "mainImage": images[0]{
+  newIn,
+  stock,
+  priority,
+  "size": size[active == true]{
+    size,
+    active
+  },
+  "color": color[]{
+    name,
+    "image": image{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
+  },
+  "images": images[]{
     asset->{
       _id,
       url
     },
     alt
+  },
+  "collection": collections[slug.current == $collectionSlug][0]->{
+    _id,
+    name,
+    slug
   }
 }`;
 
@@ -213,135 +237,25 @@ export const ALL_CATEGORY_ICONS_QUERY = `*[_type == "categoryIcons"][0]{
 }`;
 
 // Category Highlights Queries
-export const ALL_CATEGORY_HIGHLIGHTS_QUERY = `*[
-  _type == "categoryHighlights"
-  && active == true
-]|order(order desc, _createdAt desc){
+export const ALL_CATEGORY_HIGHLIGHTS_QUERY = `*[_type == "categoryHighlights"][0]{
   _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
+  highlights[active == true]|order(order desc, _createdAt desc){
+    title,
+    "collection": collection->{
       _id,
-      url
+      name,
+      slug
     },
-    alt
-  },
-  description,
-  order,
-  active
-}`;
-
-// Occasion Shopping Queries
-export const ALL_OCCASION_SHOPPING_QUERY = `*[
-  _type == "occasionShopping"
-  && active == true
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  slug,
-  description,
-  "image": image{
-    asset->{
-      _id,
-      url
+    "image": image{
+      asset->{
+        _id,
+        url
+      },
+      alt
     },
-    alt
-  },
-  "collections": collections[]->{
-    _id,
-    name,
-    slug
-  },
-  season,
-  formality,
-  order,
-  active
-}`;
-
-export const OCCASION_SHOPPING_BY_SLUG_QUERY = `*[
-  _type == "occasionShopping"
-  && slug.current == $slug
-  && active == true
-][0]{
-  _id,
-  title,
-  slug,
-  description,
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  "collections": collections[]->{
-    _id,
-    name,
-    slug
-  },
-  season,
-  formality,
-  order,
-  active
-}`;
-
-export const OCCASION_SHOPPING_BY_SEASON_QUERY = `*[
-  _type == "occasionShopping"
-  && active == true
-  && (season == $season || season == "all")
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  slug,
-  description,
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  "collections": collections[]->{
-    _id,
-    name,
-    slug
-  },
-  season,
-  formality,
-  order,
-  active
-}`;
-
-export const OCCASION_SHOPPING_BY_FORMALITY_QUERY = `*[
-  _type == "occasionShopping"
-  && active == true
-  && (formality == $formality || formality == "any")
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  slug,
-  description,
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  "collections": collections[]->{
-    _id,
-    name,
-    slug
-  },
-  season,
-  formality,
-  order,
-  active
+    order,
+    active
+  }
 }`;
 
 // Collection Highlights Queries
@@ -514,33 +428,6 @@ export const MAIN_BANNER_BY_ID_QUERY = `*[
 }`;
 
 // Second Banner Queries
-export const ALL_SECOND_BANNERS_QUERY = `*[
-  _type == "secondBanner"
-  && active == true
-]|order(order asc, _createdAt desc){
-  _id,
-  title,
-  "mobileImages": mobileImages[]{
-    asset->{
-      _id,
-      url
-    },
-    altText,
-    link
-  },
-  "desktopImages": desktopImages[]{
-    asset->{
-      _id,
-      url
-    },
-    altText,
-    link
-  },
-  link,
-  altText,
-  order,
-  active
-}`;
 
 export const SECOND_BANNER_BY_ID_QUERY = `*[
   _type == "secondBanner"
@@ -566,6 +453,54 @@ export const SECOND_BANNER_BY_ID_QUERY = `*[
   },
   link,
   altText,
+  order,
+  active
+}`;
+
+// Second Banner Query
+export const SECOND_BANNER_QUERY = `*[_type == "secondBanner"]|order(_createdAt desc){
+  _id,
+  _type,
+  title,
+  url,
+  "image": image{
+    asset->{
+      _id,
+      url
+    },
+    alt
+  }
+}`;
+
+// Occasion Shopping Query (reusable with formality parameter)
+export const OCCASION_PRODUCTS_QUERY = `*[
+  _type == "occasionShopping"
+  && active == true
+  && formality == $formality
+]|order(order desc, _createdAt desc){
+  _id,
+  title,
+  slug,
+  "products": products[]->{
+    _id,
+    title,
+    slug,
+    price,
+    stock,
+    salePrice,
+    "discountPercentage": select(
+      defined(salePrice) && salePrice < price => round(((price - salePrice) / price) * 100),
+      null
+    ),
+    "images": images[]{
+      asset->{
+        _id,
+        url
+      },
+      alt
+    }
+  },
+  formality,
   order,
   active
 }`;

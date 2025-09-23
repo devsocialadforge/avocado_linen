@@ -49,6 +49,8 @@ export interface ProductColor {
 export interface Product {
   _id: string;
   _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
   title: string;
   slug: SanitySlug;
   description: string;
@@ -60,6 +62,7 @@ export interface Product {
   stock: boolean;
   images: SanityImage[];
   collection?: Collection;
+  discountPercentage?: number;
   priority: number;
 }
 
@@ -104,15 +107,18 @@ export interface CategoryIcons {
 }
 
 // Category Highlights Types
-export interface CategoryHighlight {
-  _id: string;
-  _type: "categoryHighlights";
+export interface CategoryHighlightItem {
   title: string;
   collection: Collection;
   image: SanityImage;
-  description?: string;
   order: number;
   active: boolean;
+}
+
+export interface CategoryHighlights {
+  _id: string;
+  _type: "categoryHighlights";
+  highlights: CategoryHighlightItem[];
 }
 
 // Occasion Shopping Types
@@ -121,11 +127,10 @@ export interface OccasionShopping {
   _type: "occasionShopping";
   title: string;
   slug: SanitySlug;
-  description?: string;
   image: SanityImage;
-  collections: Collection[];
-  season?: "spring" | "summer" | "fall" | "winter" | "all";
-  formality?: "casual" | "semi-formal" | "formal" | "black-tie" | "any";
+  stock: boolean;
+  products: Product[];
+  formality: "casual" | "formal" | "going-out";
   order: number;
   active: boolean;
 }
@@ -195,12 +200,8 @@ export interface SecondBanner {
   _id: string;
   _type: "secondBanner";
   title: string;
-  mobileImages: BannerImage[];
-  desktopImages: BannerImage[];
-  link?: string;
-  altText?: string;
-  order: number;
-  active: boolean;
+  url: string;
+  image: SanityImage;
 }
 
 // Extended types with Sanity base
@@ -208,9 +209,38 @@ export type ProductDocument = Product & SanityDocument;
 export type CollectionDocument = Collection & SanityDocument;
 export type MenuDocument = Menu & SanityDocument;
 export type CategoryIconsDocument = CategoryIcons & SanityDocument;
-export type CategoryHighlightDocument = CategoryHighlight & SanityDocument;
+export type CategoryHighlightsDocument = CategoryHighlights & SanityDocument;
 export type OccasionShoppingDocument = OccasionShopping & SanityDocument;
 export type CollectionHighlightDocument = CollectionHighlight & SanityDocument;
 export type AvocadoWomenDocument = AvocadoWomen & SanityDocument;
 export type MainBannerDocument = MainBanner & SanityDocument;
 export type SecondBannerDocument = SecondBanner & SanityDocument;
+
+// Occasion Shopping Query Result Types
+export interface OccasionProductQueryResult {
+  _id: string;
+  title: string;
+  slug: SanitySlug;
+  price: number;
+  salePrice?: number;
+  discountPercentage?: number;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string;
+    };
+    alt?: string;
+  }[];
+}
+
+export interface OccasionShoppingQueryResult {
+  _id: string;
+  _type: "occasionShopping";
+  title: string;
+  slug: SanitySlug;
+  image: SanityImage;
+  products: OccasionProductQueryResult[];
+  formality: "casual" | "formal" | "going-out";
+  order: number;
+  active: boolean;
+}

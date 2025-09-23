@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  MessageCircle,
-  User,
-  RotateCcw,
-  ShoppingCart,
-  ChevronDown,
-} from "lucide-react";
-import { useState } from "react";
+import { MessageCircle, User, RotateCcw, ShoppingCart } from "lucide-react";
 
 interface RightSectionProps {
   className?: string;
 }
 
 export default function RightSection({ className = "" }: RightSectionProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const iconItems = [
     {
       name: "WhatsApp",

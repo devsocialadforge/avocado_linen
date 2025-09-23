@@ -9,29 +9,26 @@ import {
   ALL_COLLECTIONS_QUERY,
   ALL_CATEGORY_ICONS_QUERY,
   ALL_CATEGORY_HIGHLIGHTS_QUERY,
-  ALL_OCCASION_SHOPPING_QUERY,
-  OCCASION_SHOPPING_BY_SLUG_QUERY,
-  OCCASION_SHOPPING_BY_SEASON_QUERY,
-  OCCASION_SHOPPING_BY_FORMALITY_QUERY,
   ALL_COLLECTION_HIGHLIGHTS_QUERY,
   COLLECTION_HIGHLIGHT_BY_ID_QUERY,
   COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY,
   COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY,
   ALL_AVOCADO_WOMEN_QUERY,
   ALL_MAIN_BANNERS_QUERY,
-  ALL_SECOND_BANNERS_QUERY,
+  OCCASION_PRODUCTS_QUERY,
+  SECOND_BANNER_QUERY,
 } from "./querys";
 import {
   ProductDocument,
   MenuDocument,
   CollectionDocument,
   CategoryIconsDocument,
-  CategoryHighlightDocument,
   OccasionShoppingDocument,
   CollectionHighlightDocument,
   AvocadoWomenDocument,
   MainBannerDocument,
   SecondBannerDocument,
+  CategoryHighlightsDocument,
 } from "@/types";
 
 // Fetch all products with full details
@@ -108,55 +105,12 @@ export async function fetchAllCategoryIcons(): Promise<CategoryIconsDocument | n
 }
 
 // Category Highlights Fetch Functions
-export async function fetchAllCategoryHighlights(): Promise<
-  CategoryHighlightDocument[]
-> {
-  const categoryHighlights = await client.fetch<CategoryHighlightDocument[]>(
+export async function fetchAllCategoryHighlights(): Promise<CategoryHighlightsDocument | null> {
+  const categoryHighlights = await client.fetch<CategoryHighlightsDocument>(
     ALL_CATEGORY_HIGHLIGHTS_QUERY,
     {}
   );
   return categoryHighlights;
-}
-
-// Occasion Shopping Fetch Functions
-export async function fetchAllOccasionShopping(): Promise<
-  OccasionShoppingDocument[]
-> {
-  const occasions = await client.fetch<OccasionShoppingDocument[]>(
-    ALL_OCCASION_SHOPPING_QUERY,
-    {}
-  );
-  return occasions;
-}
-
-export async function fetchOccasionShoppingBySlug(
-  slug: string
-): Promise<OccasionShoppingDocument | null> {
-  const occasion = await client.fetch<OccasionShoppingDocument | null>(
-    OCCASION_SHOPPING_BY_SLUG_QUERY,
-    { slug }
-  );
-  return occasion;
-}
-
-export async function fetchOccasionShoppingBySeason(
-  season: string
-): Promise<OccasionShoppingDocument[]> {
-  const occasions = await client.fetch<OccasionShoppingDocument[]>(
-    OCCASION_SHOPPING_BY_SEASON_QUERY,
-    { season }
-  );
-  return occasions;
-}
-
-export async function fetchOccasionShoppingByFormality(
-  formality: string
-): Promise<OccasionShoppingDocument[]> {
-  const occasions = await client.fetch<OccasionShoppingDocument[]>(
-    OCCASION_SHOPPING_BY_FORMALITY_QUERY,
-    { formality }
-  );
-  return occasions;
 }
 
 // Collection Highlights Fetch Functions
@@ -216,11 +170,20 @@ export async function fetchAllMainBanners(): Promise<MainBannerDocument[]> {
   return mainBanners;
 }
 
-// Second Banner Fetch Functions
-export async function fetchAllSecondBanners(): Promise<SecondBannerDocument[]> {
-  const secondBanners = await client.fetch<SecondBannerDocument[]>(
-    ALL_SECOND_BANNERS_QUERY,
-    {}
-  );
+// Second Banner Fetch Function
+export async function fetchSecondBanners(): Promise<SecondBannerDocument[]> {
+  const secondBanners =
+    await client.fetch<SecondBannerDocument[]>(SECOND_BANNER_QUERY);
   return secondBanners;
+}
+
+// Occasion Shopping Fetch Function (reusable with formality parameter)
+export async function fetchOccasionProducts(
+  formality: "casual" | "formal" | "going-out"
+): Promise<OccasionShoppingDocument[]> {
+  const occasionProducts = await client.fetch<OccasionShoppingDocument[]>(
+    OCCASION_PRODUCTS_QUERY,
+    { formality }
+  );
+  return occasionProducts;
 }

@@ -36,7 +36,7 @@ export default function RootLayout({
         className={`${playfairDisplay.variable} ${montserrat.variable} antialiased`}
       >
         <Header />
-        <main className="min-h-screen pb-10">{children}</main>
+        <main className="min-h-screen pb-10 px-2 bg-white">{children}</main>
       </body>
     </html>
   );

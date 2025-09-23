@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { MainBanner, BannerImage } from "@/types";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -25,6 +26,10 @@ type CarouselProps = {
   autoplayStopOnInteraction?: boolean;
   autoplayStopOnMouseEnter?: boolean;
   autoplayStopOnFocusIn?: boolean;
+  // Enhanced props for banner support
+  variant?: "auto" | "mobile" | "desktop";
+  items?: BannerImage[];
+  mainBanner?: MainBanner;
 };
 
 type CarouselContextProps = {
@@ -60,6 +65,9 @@ function Carousel({
   autoplayStopOnInteraction = true,
   autoplayStopOnMouseEnter = true,
   autoplayStopOnFocusIn = true,
+  variant = "auto",
+  items,
+  mainBanner,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
   const autoplayPlugin = React.useMemo(() => {
@@ -162,6 +170,9 @@ function Carousel({
         autoplayStopOnInteraction,
         autoplayStopOnMouseEnter,
         autoplayStopOnFocusIn,
+        variant,
+        items,
+        mainBanner,
       }}
     >
       <div
@@ -245,6 +256,7 @@ function CarouselPrevious({
     </Button>
   );
 }
+
 function CarouselNext({
   className,
   variant = "outline",

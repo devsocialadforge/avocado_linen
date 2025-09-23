@@ -125,7 +125,7 @@ export default function LeftSection({
                   {item.collections.map((collection) => (
                     <Link
                       key={collection._id}
-                      href={`/collections/${collection.slug.current}`}
+                      href={`/collections/${collection?.slug.current}`}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                       onClick={() => setActiveDropdown(null)}
                     >
