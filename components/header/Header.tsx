@@ -11,7 +11,7 @@ export default async function Header({ className = "" }: HeaderProps) {
   const menuData = await fetchActiveMenuItems();
   return (
     <header
-      className={`sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border ${className}`}
+      className={`sticky top-0 z-1000 bg-background/95 backdrop-blur-sm border-b border-border ${className}`}
     >
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Header */}
