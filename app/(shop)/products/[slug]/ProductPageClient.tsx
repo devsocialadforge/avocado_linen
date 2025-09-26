@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { ProductDocument } from "@/types";
+import { ProductDocument, SanityImage, ProductColor, ProductSize } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,7 +29,7 @@ interface ProductPageClientProps {
 }
 
 // Product Gallery Component
-function ProductGallery({ images, title }: { images: any[]; title: string }) {
+function ProductGallery({ images, title }: { images: SanityImage[]; title: string }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const mainImageRef = useRef<HTMLDivElement>(null);
 
@@ -232,7 +232,7 @@ function ColorSelector({
   selectedColor,
   onColorChange,
 }: {
-  colors: any[];
+  colors: ProductColor[];
   selectedColor: string;
   onColorChange: (color: string) => void;
 }) {
@@ -275,7 +275,7 @@ function SizeSelector({
   selectedSize,
   onSizeChange,
 }: {
-  sizes: any[];
+  sizes: ProductSize[];
   selectedSize: string;
   onSizeChange: (size: string) => void;
 }) {
