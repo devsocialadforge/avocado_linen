@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/carousel";
 import {
   Star,
-  Heart,
-  Share2,
   ShoppingCart,
   Zap,
   Truck,
