@@ -2,7 +2,12 @@
 
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { ProductDocument, SanityImage, ProductColor, ProductSize } from "@/types";
+import {
+  ProductDocument,
+  SanityImage,
+  ProductColor,
+  ProductSize,
+} from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,7 +34,13 @@ interface ProductPageClientProps {
 }
 
 // Product Gallery Component
-function ProductGallery({ images, title }: { images: SanityImage[]; title: string }) {
+function ProductGallery({
+  images,
+  title,
+}: {
+  images: SanityImage[];
+  title: string;
+}) {
   const [selectedImage, setSelectedImage] = useState(0);
   const mainImageRef = useRef<HTMLDivElement>(null);
 
@@ -74,7 +85,7 @@ function ProductGallery({ images, title }: { images: SanityImage[]; title: strin
                 )}
               >
                 <Image
-                  src={urlFor(image.asset).width(96).height(96).url()}
+                  src={urlFor(image).width(96).height(96).url()}
                   alt={image.alt || `${title} thumbnail ${index + 1}`}
                   fill
                   className="object-cover"
@@ -97,7 +108,7 @@ function ProductGallery({ images, title }: { images: SanityImage[]; title: strin
                 className="relative w-full h-full rounded-xl overflow-hidden bg-gray-50 scrollbar-hide group shadow-lg flex-shrink-0"
               >
                 <Image
-                  src={urlFor(image.asset).width(1200).height(1600).url()}
+                  src={urlFor(image).width(1200).height(1600).url()}
                   alt={image.alt || `${title} image ${index + 1}`}
                   fill
                   className="object-contain "
@@ -118,7 +129,7 @@ function ProductGallery({ images, title }: { images: SanityImage[]; title: strin
               <CarouselItem key={index}>
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-50">
                   <Image
-                    src={`${image.asset?.url}?w=400&h=400&fit=crop`}
+                    src={urlFor(image).width(400).height(400).url()}
                     alt={image.alt || `${title} image ${index + 1}`}
                     fill
                     className="object-cover"
