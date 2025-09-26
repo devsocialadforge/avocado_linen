@@ -188,4 +188,11 @@
   .text-heading {
     @apply font-serif font-semibold;
   }
+
+  /* Sticky Container */
+  .sticky-container {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 }
