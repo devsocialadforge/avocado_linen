@@ -25,7 +25,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600; // revalidate at most every hour
+export const dynamic = "force-static";
+export const revalidate = 86400; // 1 day
 export default function RootLayout({
   children,
 }: Readonly<{
