@@ -211,7 +211,6 @@ export type MenuDocument = Menu & SanityDocument;
 export type CategoryIconsDocument = CategoryIcons & SanityDocument;
 export type CategoryHighlightsDocument = CategoryHighlights & SanityDocument;
 export type OccasionShoppingDocument = OccasionShopping & SanityDocument;
-export type CollectionHighlightDocument = CollectionHighlight & SanityDocument;
 export type AvocadoWomenDocument = AvocadoWomen & SanityDocument;
 export type MainBannerDocument = MainBanner & SanityDocument;
 export type SecondBannerDocument = SecondBanner & SanityDocument;
@@ -244,3 +243,17 @@ export interface OccasionShoppingQueryResult {
   order: number;
   active: boolean;
 }
+
+// Collection Highlights Query Result Types
+export interface CollectionHighlightItemQueryResult {
+  title: string;
+  image: SanityImage; // Changed from the resolved format to SanityImage
+  collection: {
+    _id: string;
+    name: string;
+    slug: SanitySlug;
+  };
+}
+
+export type CollectionHighlightsQueryResult =
+  CollectionHighlightItemQueryResult[];

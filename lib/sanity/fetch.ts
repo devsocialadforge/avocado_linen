@@ -9,14 +9,10 @@ import {
   ALL_COLLECTIONS_QUERY,
   ALL_CATEGORY_ICONS_QUERY,
   ALL_CATEGORY_HIGHLIGHTS_QUERY,
-  ALL_COLLECTION_HIGHLIGHTS_QUERY,
-  COLLECTION_HIGHLIGHT_BY_ID_QUERY,
-  COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY,
-  COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY,
-  ALL_AVOCADO_WOMEN_QUERY,
   ALL_MAIN_BANNERS_QUERY,
   OCCASION_PRODUCTS_QUERY,
   SECOND_BANNER_QUERY,
+  ALL_COLLECTION_HIGHLIGHTS_QUERY,
 } from "./querys";
 import {
   ProductDocument,
@@ -24,11 +20,10 @@ import {
   CollectionDocument,
   CategoryIconsDocument,
   OccasionShoppingDocument,
-  CollectionHighlightDocument,
-  AvocadoWomenDocument,
   MainBannerDocument,
   SecondBannerDocument,
   CategoryHighlightsDocument,
+  CollectionHighlightsQueryResult,
 } from "@/types";
 
 // Fetch all products with full details
@@ -113,54 +108,6 @@ export async function fetchAllCategoryHighlights(): Promise<CategoryHighlightsDo
   return categoryHighlights;
 }
 
-// Collection Highlights Fetch Functions
-export async function fetchAllCollectionHighlights(): Promise<
-  CollectionHighlightDocument[]
-> {
-  const collectionHighlights = await client.fetch<
-    CollectionHighlightDocument[]
-  >(ALL_COLLECTION_HIGHLIGHTS_QUERY, {});
-  return collectionHighlights;
-}
-
-export async function fetchCollectionHighlightById(
-  id: string
-): Promise<CollectionHighlightDocument | null> {
-  const collectionHighlight =
-    await client.fetch<CollectionHighlightDocument | null>(
-      COLLECTION_HIGHLIGHT_BY_ID_QUERY,
-      { id }
-    );
-  return collectionHighlight;
-}
-
-export async function fetchCollectionHighlightsByCollection(
-  collectionId: string
-): Promise<CollectionHighlightDocument[]> {
-  const collectionHighlights = await client.fetch<
-    CollectionHighlightDocument[]
-  >(COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY, { collectionId });
-  return collectionHighlights;
-}
-
-export async function fetchCollectionHighlightsByCollectionSlug(
-  collectionSlug: string
-): Promise<CollectionHighlightDocument[]> {
-  const collectionHighlights = await client.fetch<
-    CollectionHighlightDocument[]
-  >(COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY, { collectionSlug });
-  return collectionHighlights;
-}
-
-// Avocado Women Fetch Functions
-export async function fetchAllAvocadoWomen(): Promise<AvocadoWomenDocument[]> {
-  const avocadoWomen = await client.fetch<AvocadoWomenDocument[]>(
-    ALL_AVOCADO_WOMEN_QUERY,
-    {}
-  );
-  return avocadoWomen;
-}
-
 // Main Banner Fetch Functions
 export async function fetchAllMainBanners(): Promise<MainBannerDocument[]> {
   const mainBanners = await client.fetch<MainBannerDocument[]>(
@@ -186,4 +133,14 @@ export async function fetchOccasionProducts(
     { formality }
   );
   return occasionProducts;
+}
+
+// Collection Highlights Fetch Function
+export async function fetchCollectionHighlights(): Promise<CollectionHighlightsQueryResult | null> {
+  const collectionHighlights =
+    await client.fetch<CollectionHighlightsQueryResult | null>(
+      ALL_COLLECTION_HIGHLIGHTS_QUERY,
+      {}
+    );
+  return collectionHighlights;
 }

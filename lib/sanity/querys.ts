@@ -258,118 +258,6 @@ export const ALL_CATEGORY_HIGHLIGHTS_QUERY = `*[_type == "categoryHighlights"][0
   }
 }`;
 
-// Collection Highlights Queries
-export const ALL_COLLECTION_HIGHLIGHTS_QUERY = `*[
-  _type == "collectionHighlights"
-  && active == true
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  order,
-  active
-}`;
-
-export const COLLECTION_HIGHLIGHT_BY_ID_QUERY = `*[
-  _type == "collectionHighlights"
-  && _id == $id
-][0]{
-  _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  order,
-  active
-}`;
-
-export const COLLECTION_HIGHLIGHTS_BY_COLLECTION_QUERY = `*[
-  _type == "collectionHighlights"
-  && active == true
-  && collection._ref == $collectionId
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  order,
-  active
-}`;
-
-export const COLLECTION_HIGHLIGHTS_BY_COLLECTION_SLUG_QUERY = `*[
-  _type == "collectionHighlights"
-  && active == true
-  && collection->slug.current == $collectionSlug
-]|order(order desc, _createdAt desc){
-  _id,
-  title,
-  "collection": collection->{
-    _id,
-    name,
-    slug
-  },
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  order,
-  active
-}`;
-
-// Avocado Women Queries
-export const ALL_AVOCADO_WOMEN_QUERY = `*[
-  _type == "avocadoWomen"
-  && active == true
-]|order(order desc, _createdAt desc){
-  _id,
-  name,
-  "image": image{
-    asset->{
-      _id,
-      url
-    },
-    alt
-  },
-  review,
-  rating,
-  location,
-  order,
-  active
-}`;
-
 // Main Banner Queries
 export const ALL_MAIN_BANNERS_QUERY = `*[
   _type == "mainBanner"
@@ -503,4 +391,15 @@ export const OCCASION_PRODUCTS_QUERY = `*[
   formality,
   order,
   active
+}`;
+
+// Collection Highlights Query
+export const ALL_COLLECTION_HIGHLIGHTS_QUERY = `*[_type == "collectionHighlights"][0].items[active == true]{
+  title,
+  "collection": collection->{
+    _id,
+    name,
+    slug
+  },
+  image
 }`;

@@ -3,8 +3,12 @@ import CategoryIcon from "@/components/CategoryIcon";
 import CategoryHighlight from "@/components/CategoryHighlight";
 import ShopByOccasion from "@/components/ShopByOccasion";
 import SecondBanner from "@/components/SecondBanner";
+import CollectionHighlights from "@/components/CollectionHighlights";
+import { fetchCollectionHighlights } from "@/lib/sanity/fetch";
 
 export default async function Home() {
+  const collectionHighlights = await fetchCollectionHighlights();
+  console.log(collectionHighlights);
   return (
     <div className="min-h-screen">
       <div className="space-y-8">
@@ -15,6 +19,7 @@ export default async function Home() {
         <CategoryHighlight />
         <ShopByOccasion />
         <SecondBanner />
+        <CollectionHighlights collectionHighlights={collectionHighlights} />
       </div>
     </div>
   );
